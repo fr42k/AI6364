@@ -72,7 +72,14 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
-def _GeneralSearch(problem, container):
+def nullHeuristic(state, problem=None):
+    """
+    A heuristic function estimates the cost from the current state to the nearest
+    goal in the provided SearchProblem.  This heuristic is trivial.
+    """
+    return 0
+
+def _GeneralSearch(problem, container, func=nullHeuristic):
 
     explored = set()
     result = []
@@ -82,7 +89,7 @@ def _GeneralSearch(problem, container):
     init_state = problem.getStartState()
     _pushContainer(container, init_state, 0)
 
-    goal = _searchContainer(problem, container, explored, state_act, state_parent)
+    goal = _searchContainer(problem, container, explored, state_act, state_parent, func)
     if (goal is None):
         return []
     while (goal != init_state):
@@ -100,7 +107,7 @@ def _pushContainer(container, next_s, cost):
     else:
         container.push(next_s)
 
-def _searchContainer(problem, container, explored, state_act, state_parent):
+def _searchContainer(problem, container, explored, state_act, state_parent, func):
     while (not container.isEmpty()):
         s = container.pop()
         if (s in explored):
@@ -111,7 +118,7 @@ def _searchContainer(problem, container, explored, state_act, state_parent):
         for next_s, a, cost in problem.getSuccessors(s):
             if (next_s in explored):
                 continue
-            _pushContainer(container, next_s, cost)
+            _pushContainer(container, next_s, cost + func(next_s, problem))
             state_act[next_s] = a
             state_parent[next_s] = s
     return None
@@ -147,18 +154,13 @@ def uniformCostSearch(problem):
     container = PriorityQueue()
     return _GeneralSearch(problem, container)
 
-def nullHeuristic(state, problem=None):
-    """
-    A heuristic function estimates the cost from the current state to the nearest
-    goal in the provided SearchProblem.  This heuristic is trivial.
-    """
-    return 0
+
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    from util import PriorityQueueWithFunction, PriorityQueue
-    container = PriorityQueueWithFunction(heuristic)
-    return _GeneralSearch(problem, container)
+    from util import PriorityQueue
+    container = PriorityQueue()
+    return _GeneralSearch(problem, container, heuristic)
 
 
 # Abbreviations
