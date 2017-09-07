@@ -72,14 +72,14 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
-def nullHeuristic(state, problem=None):
+def nullH(state, problem=None):
     """
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
     return 0
 
-def _GeneralSearch(problem, container, func=nullHeuristic):
+def _GeneralSearch(problem, container, func=nullH):
 
     explored = set()
     result = []
@@ -152,6 +152,13 @@ def uniformCostSearch(problem):
     from util import PriorityQueue
     container = PriorityQueue()
     return _GeneralSearch(problem, container)
+
+def nullHeuristic(state, problem=None):
+    """
+    A heuristic function estimates the cost from the current state to the nearest
+    goal in the provided SearchProblem.  This heuristic is trivial.
+    """
+    return 0
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
