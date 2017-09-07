@@ -141,7 +141,6 @@ def depthFirstSearch(problem):
     container = Stack()
     return _GeneralSearch(problem, container)
 
-
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     from util import Queue
@@ -154,14 +153,11 @@ def uniformCostSearch(problem):
     container = PriorityQueue()
     return _GeneralSearch(problem, container)
 
-
-
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     from util import PriorityQueue
     container = PriorityQueue()
     return _GeneralSearch(problem, container, heuristic)
-
 
 # Abbreviations
 bfs = breadthFirstSearch
