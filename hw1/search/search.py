@@ -72,6 +72,57 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
+def nullH(state, problem=None):
+    """
+    A heuristic function estimates the cost from the current state to the nearest
+    goal in the provided SearchProblem.  This heuristic is trivial.
+    """
+    return 0
+
+def _GeneralSearch(problem, container, func=nullH):
+
+    explored = set()
+    result = []
+    state_act = {}
+    state_parent = {}
+
+    init_state = problem.getStartState()
+    _pushContainer(container, init_state, 0)
+
+    goal = _searchContainer(problem, container, explored, state_act, state_parent, func)
+    if (goal is None):
+        return []
+    while (goal != init_state):
+        result.append(state_act[goal])
+        goal = state_parent[goal]
+
+    ans = result[::-1]
+    return ans
+
+def _pushContainer(container, next_s, cost):
+    from util import PriorityQueue
+    pq = PriorityQueue()
+    if (set(container.__dict__.keys()) == set(pq.__dict__.keys())):
+        container.update(next_s, cost)
+    else:
+        container.push(next_s)
+
+def _searchContainer(problem, container, explored, state_act, state_parent, func):
+    while (not container.isEmpty()):
+        s = container.pop()
+        if (s in explored):
+            continue
+        explored.add(s)
+        if (problem.isGoalState(s)):
+            return s
+        for next_s, a, cost in problem.getSuccessors(s):
+            if (next_s in explored):
+                continue
+            _pushContainer(container, next_s, cost + func(next_s, problem))
+            state_act[next_s] = a
+            state_parent[next_s] = s
+    return None
+
 def depthFirstSearch(problem):
     """
     Search the deepest nodes in the search tree first.
@@ -87,91 +138,23 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
-    #util.raiseNotDefined()
-    state = problem.getStartState()
-    stack = util.Stack()
-    stack.push((state, 0))
-    visited = {state: problem.getSuccessors(state)}
-    foundGoal = False
-    ret = []
-    while not stack.isEmpty():
-        state, idx = stack.pop()
-        if foundGoal is False:
-            if problem.isGoalState(state):
-                foundGoal = True
-                continue
-            while idx < len(visited[state]):
-                _state = visited[state][idx][0]
-                if visited.has_key(_state):
-                    idx += 1
-                    continue
-                else:
-                    # print idx, len(visited[state])
-                    stack.push((state, idx))
-                    visited[_state] = problem.getSuccessors(_state)[::-1]
-                    stack.push((_state, 0))
-                    break
-        else:
-            ret.append(visited[state][idx][1])
-    return ret[::-1]
-
+    from util import Stack
+    container = Stack()
+    return _GeneralSearch(problem, container)
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    state = problem.getStartState()
-    que = util.Queue()
-    stack = util.Stack()
-    que.push((state, None, None))
-    visited = set(state)
-    par = None
-    ret = []
-    while not que.isEmpty():
-        state, par, act = que.pop()
-        stack.push((state, par, act))
-        if problem.isGoalState(state):
-            par = state
-            break
-        for nextState, action, cost in problem.getSuccessors(state):
-            if nextState in visited: continue
-            visited.add(nextState)
-            que.push((nextState, state, action))
-    ret = []
-    while not stack.isEmpty():
-        state, p, act = stack.pop()
-        if par !=  state: continue
-        if act != None :ret.append(act)
-        par = p
-    return ret[::-1]
+    from util import Queue
+    container = Queue()
+    return _GeneralSearch(problem, container)
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    # util.raiseNotDefined()
-    state = problem.getStartState()
-    pq = util.PriorityQueue()
-    stack = util.Stack()
-    pq.update((state, None, None), 0)
-    visited = {state:0}
-    par = None
-    ret = []
-    while not pq.isEmpty():
-        state, par, act = pq.pop()
-        stack.push((state, par, act))
-        if problem.isGoalState(state):
-            par = state
-            break
-        for nextState, action, cost in problem.getSuccessors(state):
-            if nextState in visited and cost >= visited[nextState]: continue
-            visited[nextState] = cost
-            pq.update((nextState, state, action), cost)
-    ret = []
-    while not stack.isEmpty():
-        state, p, act = stack.pop()
-        if par !=  state: continue
-        if act != None :ret.append(act)
-        par = p
-    return ret[::-1]
+    from util import PriorityQueue
+    container = PriorityQueue()
+    return _GeneralSearch(problem, container)
 
 def nullHeuristic(state, problem=None):
     """
@@ -183,30 +166,9 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    state = problem.getStartState()
-    pq = util.PriorityQueue()
-    stack = util.Stack()
-    pq.update((state, None, None), 0 + heuristic(state, problem))
-    visited = {state:0}
-    par = None
-    ret = []
-    while not pq.isEmpty():
-        state, par, act = pq.pop()
-        stack.push((state, par, act))
-        if problem.isGoalState(state):
-            par = state
-            break
-        for nextState, action, cost in problem.getSuccessors(state):
-            if nextState in visited and cost >= visited[nextState]: continue
-            visited[nextState] = cost
-            pq.update((nextState, state, action), cost + heuristic(state, problem))
-    ret = []
-    while not stack.isEmpty():
-        state, p, act = stack.pop()
-        if par !=  state: continue
-        if act != None :ret.append(act)
-        par = p
-    return ret[::-1]
+    from util import PriorityQueue
+    container = PriorityQueue()
+    return _GeneralSearch(problem, container, heuristic)
 
 # Abbreviations
 bfs = breadthFirstSearch

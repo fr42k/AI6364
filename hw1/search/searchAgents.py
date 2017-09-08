@@ -334,12 +334,12 @@ class CornersProblem(search.SearchProblem):
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
             if not self.walls[nextx][nexty]:
-                cost = self.costFn
                 label = state[1]
                 for i in range(len(self.corners)):
                     if (nextx, nexty) == self.corners[i]:
                         label |= 1 << i
                 newState = ((nextx, nexty), label)
+                cost = self.costFn(newState)
                 successors.append((newState, action, cost))
         self._expanded += 1 # DO NOT CHANGE
         # if state not in self._visited:
