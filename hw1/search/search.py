@@ -166,9 +166,9 @@ def uniformCostSearch(problem):
             par = state
             break
         for nextState, action, cost in problem.getSuccessors(state):
-            if nextState in visited and cost >= visited[nextState]: continue
-            visited[nextState] = cost
-            pq.update((nextState, state, action), cost)
+            if nextState in visited and cost + visited[state] >= visited[nextState]: continue
+            visited[nextState] = cost + visited[state]
+            pq.update((nextState, state, action), visited[nextState])
     ret = []
     while not stack.isEmpty():
         state, p, act = stack.pop()
@@ -201,9 +201,9 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             par = state
             break
         for nextState, action, cost in problem.getSuccessors(state):
-            if nextState in visited and cost >= visited[nextState]: continue
-            visited[nextState] = cost
-            pq.update((nextState, state, action), cost + heuristic(state, problem))
+            if nextState in visited and cost + visited[state] >= visited[nextState]: continue
+            visited[nextState] = cost + visited[state]
+            pq.update((nextState, state, action), visited[nextState] + heuristic(nextState, problem))
     ret = []
     while not stack.isEmpty():
         state, p, act = stack.pop()
