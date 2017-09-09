@@ -288,6 +288,7 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
+        "*** Solved by Yunjie Wang & Sijia Chen"
         self.startState = (self.startingPosition, 0)
         self.costFn = lambda x: 1
         self.goal = (1 << len(self.corners)) - 1
@@ -299,6 +300,7 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
+        "*** Solved by Yunjie Wang & Sijia Chen"
         #util.raiseNotDefined()
         return self.startState
 
@@ -307,6 +309,7 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
+        "*** Solved by Yunjie Wang & Sijia Chen"
         #util.raiseNotDefined()
         return state[1] == self.goal
 
@@ -331,6 +334,7 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
+            "*** Solved by Yunjie Wang & Sijia Chen"
             x, y = state[0]
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
@@ -377,6 +381,7 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
+    "*** Solved by Yunjie Wang & Sijia Chen"
     ret = 0
     cur, label = state
     for i in range(len(corners)):
@@ -476,6 +481,7 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
+    "*** Solved by Yunjie Wang & Sijia Chen"
     #return 0
     if 'eaten' not in problem.heuristicInfo:
         problem.heuristicInfo['eaten'] = set()
@@ -516,7 +522,9 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        "*** Solved by Yunjie Wang & Sijia Chen"
+        # util.raiseNotDefined()
+        return search.bfs(problem)
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -552,7 +560,13 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x,y = state
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        "*** Solved by Yunjie Wang & Sijia Chen"
+        # util.raiseNotDefined()
+        for food in self.food.asList():
+            if food not in self._visited:
+                if state == food:
+                    return True
+        return False
 
 def mazeDistance(point1, point2, gameState):
     """
