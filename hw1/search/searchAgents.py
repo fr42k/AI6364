@@ -291,7 +291,6 @@ class CornersProblem(search.SearchProblem):
         self.startState = (self.startingPosition, 0)
         self.costFn = lambda x: 1
         self.goal = (1 << len(self.corners)) - 1
-
         self.gameState = startingGameState
 
     def getStartState(self):
@@ -477,7 +476,16 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    return 0
+    #return 0
+    if 'eaten' not in problem.heuristicInfo:
+        problem.heuristicInfo['eaten'] = set()
+    ret = 0
+    newFoods = set(foodGrid.asList()) - problem.heuristicInfo['eaten']
+    for food in newFoods:
+        if position == food:
+            problem.heuristicInfo['eaten'].add(food)
+        ret = max(ret, mazeDistance(position, food, problem.startingGameState))
+    return ret
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
