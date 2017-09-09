@@ -96,11 +96,7 @@ def depthFirstSearch(problem):
     ret = []
     while not stack.isEmpty():
         state, idx = stack.pop()
-        # print state
         if foundGoal is False:
-            # if problem.isGoalState(state):
-            #     foundGoal = True
-            #     continue
             while idx < len(visited[state]):
                 _state = visited[state][idx][0]
                 if visited.has_key(_state):
@@ -111,7 +107,6 @@ def depthFirstSearch(problem):
                     if problem.isGoalState(_state):
                         foundGoal = True
                         break
-                    # print idx, len(visited[state])
                     visited[_state] = problem.getSuccessors(_state)
                     stack.push((_state, 0))
                     break
@@ -166,13 +161,13 @@ def uniformCostSearch(problem):
             par = state
             break
         for nextState, action, cost in problem.getSuccessors(state):
-            if nextState in visited and cost >= visited[nextState]: continue
-            visited[nextState] = cost
-            pq.update((nextState, state, action), cost)
+            if nextState in visited and cost + visited[state] >= visited[nextState]: continue
+            visited[nextState] = visited[state] + cost
+            pq.update((nextState, state, action), visited[nextState])
     ret = []
     while not stack.isEmpty():
         state, p, act = stack.pop()
-        if par !=  state: continue
+        if par != state: continue
         if act != None :ret.append(act)
         par = p
     return ret[::-1]
@@ -201,9 +196,9 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             par = state
             break
         for nextState, action, cost in problem.getSuccessors(state):
-            if nextState in visited and cost >= visited[nextState]: continue
-            visited[nextState] = cost
-            pq.update((nextState, state, action), cost + heuristic(state, problem))
+            if nextState in visited and cost + visited[state] >= visited[nextState]: continue
+            visited[nextState] = cost + visited[state]
+            pq.update((nextState, state, action), visited[nextState] + heuristic(nextState, problem))
     ret = []
     while not stack.isEmpty():
         state, p, act = stack.pop()
