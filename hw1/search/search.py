@@ -162,7 +162,7 @@ def uniformCostSearch(problem):
             break
         for nextState, action, cost in problem.getSuccessors(state):
             if nextState in visited and cost + visited[state] >= visited[nextState]: continue
-            visited[nextState] = visited[state] + cost
+            visited[nextState] = cost + visited[state]
             pq.update((nextState, state, action), visited[nextState])
     ret = []
     while not stack.isEmpty():
