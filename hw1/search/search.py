@@ -96,11 +96,7 @@ def depthFirstSearch(problem):
     ret = []
     while not stack.isEmpty():
         state, idx = stack.pop()
-        # print state
         if foundGoal is False:
-            # if problem.isGoalState(state):
-            #     foundGoal = True
-            #     continue
             while idx < len(visited[state]):
                 _state = visited[state][idx][0]
                 if visited.has_key(_state):
@@ -111,7 +107,6 @@ def depthFirstSearch(problem):
                     if problem.isGoalState(_state):
                         foundGoal = True
                         break
-                    # print idx, len(visited[state])
                     visited[_state] = problem.getSuccessors(_state)
                     stack.push((_state, 0))
                     break
@@ -172,7 +167,7 @@ def uniformCostSearch(problem):
     ret = []
     while not stack.isEmpty():
         state, p, act = stack.pop()
-        if par !=  state: continue
+        if par != state: continue
         if act != None :ret.append(act)
         par = p
     return ret[::-1]
