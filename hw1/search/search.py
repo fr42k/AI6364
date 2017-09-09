@@ -87,6 +87,7 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
+    "*** Solved by Yunjie Wang & Sijia Chen"
     #util.raiseNotDefined()
     state = problem.getStartState()
     stack = util.Stack()
@@ -118,6 +119,7 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+    "*** Solved by Yunjie Wang & Sijia Chen"
     state = problem.getStartState()
     que = util.Queue()
     stack = util.Stack()
@@ -146,6 +148,7 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+    "*** Solved by Yunjie Wang & Sijia Chen"
     # util.raiseNotDefined()
     state = problem.getStartState()
     pq = util.PriorityQueue()
@@ -183,6 +186,7 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
+    "*** Solved by Yunjie Wang & Sijia Chen"
     state = problem.getStartState()
     pq = util.PriorityQueue()
     stack = util.Stack()
