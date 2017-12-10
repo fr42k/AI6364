@@ -84,10 +84,13 @@ class ValueIterationAgent(ValueEstimationAgent):
         """
         "*** YOUR CODE HERE ***"
         #util.raiseNotDefined()
-        valuesOfAction = util.Counter()
+        bestQ = float('-inf')
+        bestA = None
         for action in self.mdp.getPossibleActions(state):
-            valuesOfAction[action] = self.computeQValueFromValues(state, action)
-        return valuesOfAction.argMax()
+            if self.computeQValueFromValues(state, action) > bestQ:
+                bestQ = self.computeQValueFromValues(state, action)
+                bestA = action
+        return bestA if bestQ != float('-inf') else None
 
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
