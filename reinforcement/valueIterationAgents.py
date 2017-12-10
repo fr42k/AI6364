@@ -45,6 +45,7 @@ class ValueIterationAgent(ValueEstimationAgent):
 
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
+        "*** Solved by Yunjie Wang & Sijia Chen ***"
         for _ in range(self.iterations):
             values = self.values.copy()
             for state in self.mdp.getStates():
@@ -66,6 +67,7 @@ class ValueIterationAgent(ValueEstimationAgent):
           value function stored in self.values.
         """
         "*** YOUR CODE HERE ***"
+        "*** Solved by Yunjie Wang & Sijia Chen ***"
         #util.raiseNotDefined()
         q_s_a = 0
         for nextState, prob in self.mdp.getTransitionStatesAndProbs(state, action):
@@ -83,6 +85,7 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
+        "*** Solved by Yunjie Wang & Sijia Chen ***"
         #util.raiseNotDefined()
         import random
         bestQ = float('-inf')

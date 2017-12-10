@@ -43,6 +43,7 @@ class QLearningAgent(ReinforcementAgent):
         ReinforcementAgent.__init__(self, **args)
 
         "*** YOUR CODE HERE ***"
+        "*** Solved by Yunjie Wang & Sijia Chen ***"
         self.qValues = util.Counter()
 
     def getQValue(self, state, action):
@@ -52,6 +53,7 @@ class QLearningAgent(ReinforcementAgent):
           or the Q node value otherwise
         """
         "*** YOUR CODE HERE ***"
+        "*** Solved by Yunjie Wang & Sijia Chen ***"
         #util.raiseNotDefined()
         return self.qValues[(state, action)]
 
@@ -64,6 +66,7 @@ class QLearningAgent(ReinforcementAgent):
           terminal state, you should return a value of 0.0.
         """
         "*** YOUR CODE HERE ***"
+        "*** Solved by Yunjie Wang & Sijia Chen ***"
         #util.raiseNotDefined()
         bestQ = float('-inf')
         for action in self.getLegalActions(state):
@@ -78,6 +81,7 @@ class QLearningAgent(ReinforcementAgent):
           you should return None.
         """
         "*** YOUR CODE HERE ***"
+        "*** Solved by Yunjie Wang & Sijia Chen ***"
         #util.raiseNotDefined()
         bestQ = self.computeValueFromQValues(state)
         bestActions = []
@@ -102,6 +106,7 @@ class QLearningAgent(ReinforcementAgent):
         legalActions = self.getLegalActions(state)
         action = None
         "*** YOUR CODE HERE ***"
+        "*** Solved by Yunjie Wang & Sijia Chen ***"
         #util.raiseNotDefined()
         if util.flipCoin(self.epsilon):
             action = random.choice(legalActions)
@@ -120,6 +125,7 @@ class QLearningAgent(ReinforcementAgent):
           it will be called on your behalf
         """
         "*** YOUR CODE HERE ***"
+        "*** Solved by Yunjie Wang & Sijia Chen ***"
         #util.raiseNotDefined()
         currentQ = self.qValues[(state, action)]
         nextQ = self.computeValueFromQValues(nextState)
